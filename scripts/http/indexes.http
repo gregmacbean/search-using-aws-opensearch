@@ -1,0 +1,74 @@
+@createdAt = {{$datetime iso8601}}
+@host = https://{{$dotenv USERNAME}}:{{$dotenv PASSWORD}}@{{$dotenv ENDPOINT}}
+
+# delete index
+
+#DELETE {{host}}/jobs
+
+###
+
+# create index template
+
+PUT {{host}}/_index_template/jobs
+Content-Type: application/json
+
+{
+  "index_patterns": [
+    "jobs*"
+  ],
+  "template": {
+    "aliases": {
+      "jobs_alias": {}
+    },  
+    "mappings": {
+      "properties": {
+        "Work_type": {
+          "type": "keyword"
+        },
+        "Performance": {
+          "type": "keyword"
+        },
+        "Ad_status": {
+          "type": "keyword"
+        },
+        "Min_salary": {
+          "type": "integer"
+        },
+        "Max_salary": {
+          "type": "integer"
+        },
+        "Date_created": {
+          "type": "date",
+          "format" : "d/M/yyyy"
+        },
+        "Date_expired": {
+          "type": "date",
+          "format" : "d/M/yyyy"
+        }
+      }
+    }
+  }
+}
+
+###
+
+# list indexes
+
+GET {{host}}/_cat/indices?v
+
+###
+
+# create index
+
+PUT {{host}}/jobs
+Content-Type: application/json
+
+###
+
+# put data (use the sample-data-loader instead)
+# PUT {{host}}/jobs/_doc/59154890
+# Content-Type: application/json
+
+#  {
+#    "title": "Senior Software Engineer",
+# }

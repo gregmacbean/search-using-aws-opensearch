@@ -1,0 +1,28 @@
+{
+  "app": "npx ts-node infra/index.ts",
+  "context": {
+    "global": {
+      "appName": "search-demo",
+      "region": "ap-southeast-2"
+    },
+    "dev": {
+      "account": "{{your account id}}",
+      "service": {
+        "subnetId": "{{your subnet id}}",
+        "environment": {
+          "name": "dev"
+        }
+      }
+    },
+    "prod": {
+      "account": "n/a",
+      "service": {
+        "subnetId": "",
+        "environment": {
+          "name": "prod"
+        }
+      }
+    }
+  },
+  "progress": "events"
+}

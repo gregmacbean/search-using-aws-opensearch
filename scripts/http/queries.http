@@ -1,0 +1,121 @@
+@host = https://{{$dotenv USERNAME}}:{{$dotenv PASSWORD}}@{{$dotenv ENDPOINT}}
+
+### full-text query
+
+GET http://my-domain.ap-southeast-2.opensearch.localhost.localstack.cloud:4566/_nodes
+
+###
+
+GET {{host}}/jobs/_search?q=customer
+
+### term query
+
+GET {{host}}/jobs/_search?q=Job_title:Customer
+
+### search with request body
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "Job_title": "Customer"
+    }
+  }
+}
+
+###
+# use term query to search for exact match on a keyword only
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "term": {
+      "Performance": "High"
+    }
+  }
+}
+
+###
+# dsl example
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "query_string": {
+      "query": "customer AND Performance:High"
+    }
+  }
+}
+
+### multi match
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "multi_match": {
+      "query": "Customer",
+      "fields": ["Job_Title", "Category"]
+    }
+  }
+}
+
+### search with aggregate
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "multi_match": {
+      "query": "Customer",
+      "fields": ["Job_Title", "Category"]
+    }
+  },
+  "aggs": {
+    "avg_max_salary": {
+      "avg": {
+        "field": "Max_salary"
+      }
+    }
+  }
+}
+
+### boolean queries compound query classes to make complex queries
+
+GET {{host}}/jobs/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Customer",
+            "fields": ["Job_Title", "Category"]
+          }
+        },
+        {
+          "term": {
+            "Performance": "High"
+          }
+        }
+      ],
+      "must_not": [
+        {}
+      ],
+      "should": [
+        {}
+      ],
+      "filter": {}
+    }
+  }
+}

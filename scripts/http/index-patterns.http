@@ -1,0 +1,25 @@
+@createdAt = {{$datetime iso8601}}
+@host = https://{{$dotenv USERNAME}}:{{$dotenv PASSWORD}}@{{$dotenv ENDPOINT}}
+
+###
+
+# search for index patterns
+GET {{host}}/.kibana/_search?size=100&q=type:"index-pattern"
+
+###
+
+# delete index pattern
+DELETE {{host}}/.kibana/_doc/3eGDd4UBUkOqwO4mgaXh
+
+###
+
+# create index pattern
+POST {{host}}/.kibana/_doc
+Content-Type: application/json
+
+{
+    "type" : "index-pattern",
+    "index-pattern" : { "title": "jobs*", "timefieldName": "@createdAt" }
+}
+
+###
