@@ -1,4 +1,4 @@
-### HOWTO use localstack to install & configure opensearch
+### using localstack to install & configure opensearch (wip)
 
 * run `docker-compose up localstack`
 * create local opensearch domain using, `awslocal opensearch create-domain --domain-name my-domain`
